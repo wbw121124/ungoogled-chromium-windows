@@ -1,0 +1,13 @@
+--- a/chrome/common/chrome_paths_win.cc
++++ b/chrome/common/chrome_paths_win.cc
+@@ -78,9 +78,10 @@ bool GetDefaultUserDataDirectory(base::FilePath* result) {
+-  if (!base::PathService::Get(base::DIR_LOCAL_APP_DATA, result))
++  // 强制获取 exe 所在目录
++  if (!base::PathService::Get(base::DIR_EXE, result))
+     return false;
+-  *result = result->Append(install_static::GetChromeInstallSubDirectory());
+-  *result = result->Append(kUserDataDirname);
++  // 在 exe 目录下创建 "User Data" 文件夹
++  *result = result->Append(FILE_PATH_LITERAL("User Data"));
+   return true;
+ }

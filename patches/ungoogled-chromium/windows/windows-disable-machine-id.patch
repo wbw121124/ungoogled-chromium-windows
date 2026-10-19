@@ -26,16 +26,17 @@
  MachineIdProvider::~MachineIdProvider() = default;
  
  bool MachineIdProvider::HasId() const {
-+  if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id")) {
-+    return false;
-+  }
-   return true;
++  //if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id")) {
++  //  return false;
++  //}
+-   return true;
++   return false;
  }
  
  // On windows, the machine id is based on the serial number of the drive Chrome
  // is running from.
  std::string MachineIdProvider::GetMachineId() const {
-+  if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id")) {
++  if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id") || true) {
 +    return std::string();
 +  }
 +
@@ -55,7 +56,7 @@
  MachineIdStatus GetDeterministicMachineSpecificId(std::string* machine_id) {
    DCHECK(machine_id);
  
-+  if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id")) {
++  if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id") || true) {
 +    return MachineIdStatus::NOT_IMPLEMENTED;
 +  }
 +
